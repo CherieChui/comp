@@ -1,23 +1,41 @@
-from builtins import input
-import os
+from datetime import datetime, timedelta
 
-def create_pir():
-    file_name = input("Enter the file name for the new PIR: ")
+class Event:
+    def __init__(self, description, start_time, alarm):
+        self.description = description
+        self.start_time = start_time
+        self.alarm = alarm
 
-    if os.path.exists(file_name):
-        print(file_name + " file already exists.")
-    else:
+# Function to create a new event
+def create_event():
+    description = input("Enter event description: ")
+
+    # Handle start time input with error handling and hints
+    while True:
+        start_time_str = input("Enter event start time (YYYY-MM-DD HH:MM): ")
         try:
-            with open(file_name, 'w') as file:
-                print("New PIR created: " + file_name)
-            with open(file_name, 'r') as file:
-                pir_text = file.read()
-                if pir_text:
-                    print("PIR content:")
-                    print(pir_text)
-                else:
-                    print("Empty PIR file.")
-        except IOError:
-            print("Error: Unable to create or open the PIR file.")
+            start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M")
+            break
+        except ValueError:
+            print("Invalid input for start time. Please enter a valid date and time in the format 'YYYY-MM-DD HH:MM'.")
 
-create_pir()
+    # Handle alarm input with error handling and hints
+    while True:
+        alarm_str = input("Enter event alarm (in minutes before start time): ")
+        try:
+            alarm = timedelta(minutes=int(alarm_str))
+            break
+        except ValueError:
+            print("Invalid input for alarm. Please enter a valid integer.")
+
+    # Create the event object
+    event = Event(description, start_time, alarm)
+
+    return event
+
+# Example usage
+event = create_event()
+print("Event created:")
+print("Description:", event.description)
+print("Start Time:", event.start_time)
+print("Alarm:", event.alarm)
