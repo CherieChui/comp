@@ -1,11 +1,13 @@
 import re
 
+# set parameters to task
 class Task:
     def __init__(self, name, description, deadline):
         self.name = name
         self.description = description
         self.deadline = deadline
-        
+
+# set functions to tasks
 class TaskManager:
     def __init__(self):
         self.tasks = []
@@ -22,31 +24,34 @@ class TaskManager:
                 print("Description:", task.description)
                 print("Deadline:", task.deadline)
                 print("-----------------------")
-        else:
-            print("No tasks found!")
 
+
+# test if the input deadline is valid
 def validate_date(deadline_string):
-    pattern = r"\d{4}-\d{2}-\d{2}"
-    if re.match(pattern, deadline_string):
+    temp = r"\d{4}-\d{2}-\d{2}"
+    if re.match(temp, deadline_string):
         return True
     else:
         return False   
 
-# Add tasks
+# Create tasks
 task_manager = TaskManager()
 task_name = input("Enter the task name: ")
 task_description = input("Enter the task description: ")
-
 task_deadline = input("Enter the deadline of task in form of YYYY-MM-DD: ")
 while validate_date(task_deadline) != True:
     print("The input deadline is incorrect!")
     task_deadline = input("Enter the deadline of task in form of YYYY-MM-DD: ")
 
+# add input content to the task
 task_manager.add_task(task_name,task_description,task_deadline)
 
 # Display tasks
 print("")
-print("Task Added:")
+print("Task Added Content:")
 task_manager.display_tasks()
+
+
+
 
 
