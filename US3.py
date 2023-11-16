@@ -1,4 +1,4 @@
-import re
+from datetime import datetime
 
 # set parameters to task
 class Task:
@@ -25,14 +25,13 @@ class TaskManager:
                 print("Deadline:", task.deadline)
                 print("-----------------------")
 
-
 # test if the input deadline is valid
-def validate_date(deadline_string):
-    temp = r"\d{4}-\d{2}-\d{2}"
-    if re.match(temp, deadline_string):
+def validate_date(deadline_string): 
+    try:
+        datetime.strptime(deadline_string, "%Y-%m-%d")
         return True
-    else:
-        return False   
+    except ValueError:
+        return False 
 
 # Create tasks
 task_manager = TaskManager()
@@ -50,8 +49,6 @@ task_manager.add_task(task_name,task_description,task_deadline)
 print("")
 print("Task Added Content:")
 task_manager.display_tasks()
-
-
 
 
 
