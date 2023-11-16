@@ -22,24 +22,58 @@ class Manager:
     def __init__(self, file_name):
         self.file_name = file_name
         if not os.path.exists(self.file_name):
-            print("The file doesn't exist")
+            with open(self.file_name, 'w') as file:
+                print(f"{self.file_name} created")
+        self.items = self.load_items()
+
+    def load_items(self):
+        if os.path.exists(self.file_name):
+            with open(self.file_name, 'r') as file:
+                return [json.loads(line) for line in file]
+        return []
 
     def add_event(self, description, start_time, alarm):
+        for item in self.items:
+            if item['type'] == 'event' and item['description'] == description:
+                print("An event with this description already exists.")
+                modify = input("Do you want to modify the existing event? (yes/no): ")
+                if modify.lower() == 'yes':
+                    item['start_time'] = str(start_time)
+                    item['alarm'] = str(alarm)
+                    print("Event modified!")
+                    self.write_to_file()
+                    return
+                else:
+                    return
         event = Event(description, start_time, alarm)
-        self.write_to_file(event.event_dict)
+        self.items.append(event.event_dict)
+        self.write_to_file()
         print("Event created!")
 
     def add_task(self, name, description, deadline):
+        for item in self.items:
+            if item['type'] == 'task' and item['name'] == name:
+                print("A task with this name already exists.")
+                modify = input("Do you want to modify the existing task? (yes/no): ")
+                if modify.lower() == 'yes':
+                    item['description'] = description
+                    item['deadline'] = deadline
+                    print("Task modified!")
+                    self.write_to_file()
+                    return
+                else:
+                    return
         task = Task(name, description, deadline)
-        self.write_to_file(task.task_dict)
+        self.items.append(task.task_dict)
+        self.write_to_file()
         print("Task added successfully!")
 
-    def write_to_file(self, item_dict):
-        if os.path.exists(self.file_name):
-            with open(self.file_name, 'a') as file:
-                file.write(json.dumps(item_dict))
+    def write_to_file(self):
+        with open(self.file_name, 'w') as file:
+            for item in self.items:
+                file.write(json.dumps(item))
                 file.write("\n")
-
+                
 def validate_date(deadline_string): 
     try:
         datetime.strptime(deadline_string, "%Y-%m-%d")
@@ -59,8 +93,6 @@ if os.path.exists(file_name):
         print("The input deadline is incorrect!")
         task_deadline = input("Enter the deadline of task in form of YYYY-MM-DD: ")
     manager.add_task(task_name, task_description, task_deadline)
-    with open(file_name, 'a') as file:
-        file.write("----- Tasks Ends and Events Start -----\n")
 
     # Add event
     event_description = input("Enter event description: ")
