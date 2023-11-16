@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 # set parameters to task
@@ -18,12 +19,11 @@ class TaskManager:
         print("Task added successfully!")
         
     def display_tasks(self):
+        list = {}
         if self.tasks:
             for task in self.tasks:
-                print("Task name:", task.name)
-                print("Description:", task.description)
-                print("Deadline:", task.deadline)
-                print("-----------------------")
+                list[task_name] = task_description + ' , ' + task_deadline
+                print(list)
 
 # test if the input deadline is valid
 def validate_date(deadline_string): 
@@ -44,7 +44,6 @@ while validate_date(task_deadline) != True:
 
 # add input content to the task
 task_manager.add_task(task_name,task_description,task_deadline)
-
 # Display tasks
 print("")
 print("Task Added Content:")
