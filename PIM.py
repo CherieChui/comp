@@ -24,11 +24,12 @@ class PIM:
             with open(file_name, 'w') as f:  # Create the file
                 json.dump(self.data, f)
         
-
+    # This function save input data in the txt file
     def save_data(self):
         with open(self.file_name, 'w') as f:
             json.dump(self.data, f)
 
+    # add task function to ask user to 
     def add_task(self, description, deadline):
         self.data['tasks'].append({'description': description, 'deadline': deadline})
         self.save_data()
@@ -96,6 +97,15 @@ class PIM:
         return None
 
 
+# check if the input number is not int
+def check_int(number):
+    try:
+        int(number)
+        return True
+    except ValueError:
+        return False
+
+
 # Manage function to PIR----------------------------------------------------------------------------------------------------------------------
 def Manage_PIR():
     while True:
@@ -113,10 +123,10 @@ def Manage_PIR():
 
         elif option == 2:
             description = input("Enter the event description: ")
-            starting_time = input("Enter the event starting time (format YYYY-MM-DD): ")
+            starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
             while validate_date(starting_time) != True:
                     print("Invalid Input, please try again!")
-                    starting_time = input("Enter the event starting time (format YYYY-MM-DD): ")
+                    starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
                     
             alarm = input("Enter the event alarm time (format YYYY-MM-DD): ")
             while validate_date(alarm) != True:
@@ -128,6 +138,9 @@ def Manage_PIR():
             name = input("Enter the contact name: ")
             address = input("Enter the contact address: ")
             mobile_number = input("Enter the contact mobile number: ")
+            while check_int(mobile_number) != True:
+                print("Invalid Input, Please try again")
+                mobile_number = input("Enter the contact mobile number: ")
             pim.add_contact(name, address, mobile_number)
             
         elif option == 4:
@@ -169,6 +182,9 @@ def Manage_PIR():
                 name = input("Enter the contact name: ")
                 address = input("Enter the contact address: ")
                 mobile_number = input("Enter the contact mobile number: ")
+                while check_int(mobile_number) != True:
+                    print("Invalid Input, Please try again")
+                    mobile_number = input("Enter the contact mobile number: ")
                 pim.update_record(record_type, record_index, description=None, starting_time=None, alarm=None, name=name, address=address, mobile_number=mobile_number)
 
         elif option == 7:
