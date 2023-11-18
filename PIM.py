@@ -138,7 +138,7 @@ def Manage_PIR():
     while True:
         print("--------------------Menu----------------------")
         print("1. Add task\n2. Add event\n3. Add contact\n4. List records\n5. Delete record\n6. Update record\n7. Find record\n8. Go Back")
-        option = int(input("Enter your option: "))
+        option = int(input("Enter your option in number form: "))
 
         if not check_int(option):
             print("Invalid option.")
