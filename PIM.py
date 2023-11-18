@@ -244,6 +244,11 @@ while True:
             pim = PIM(filename)
             if Manage_PIR() == "back":
                 break
-    else:
+    elif selection == '3':
         sys.exit()
+
+    else:
+        print("Invalid input, Please try again")
+
+
 
