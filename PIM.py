@@ -138,7 +138,7 @@ def Manage_PIR():
     while True:
         print("--------------------Menu----------------------")
         print("1. Add task\n2. Add event\n3. Add contact\n4. List records\n5. Delete record\n6. Update record\n7. Find record\n8. Go Back")
-        option = int(input("Enter your option in number form: "))
+        option = int(input("Enter your option: "))
 
         if not check_int(option):
             print("Invalid option.")
@@ -251,7 +251,7 @@ def Manage_PIR():
 def print_all_files():
     print("------------ALL FILES------------")
     txt_files = [file_name for file_name in os.listdir(current_path) if file_name.endswith('.pim')]
-
+    
     if not txt_files:  # Check if the list is empty
         print("No text files found. Returning to main menu.")
         return False  # Return False if no files found
@@ -261,7 +261,7 @@ def print_all_files():
         with open(file_path, 'r') as file:
             file_content = file.read()
         print(file_name)
-
+    print("---------------------------------")
     return True  # Return True if files are found
 
 # check whether input file exists----------------------------------------------------------------------------------------------------------------------
