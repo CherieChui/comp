@@ -24,12 +24,13 @@ class PIM:
     def __init__(self, file_name):
         self.file_name = file_name
         if os.path.exists(file_name):
-            with open(file_name, 'r') as f:
-                self.data = json.load(f)
+            print(f"The file {file_name} already exists.")
+            self.status = False
         else:
             self.data = {'tasks': [], 'events': [], 'contacts': []}
             with open(file_name, 'w') as f:  # Create the file
                 json.dump(self.data, f)
+            self.status = True
         
     # This function save input data in the txt file
     def save_data(self):
@@ -137,14 +138,20 @@ def check_int(number):
 def Manage_PIR():
     while True:
         print("--------------------Menu----------------------")
-        print("1. Add task\n2. Add event\n3. Add contact\n4. List records\n5. Delete record\n6. Update record\n7. Find record\n8. Go Back")
-        option = int(input("Enter your option: "))
+        print("0. Create new PIM file\n1. Add task\n2. Add event\n3. Add contact\n4. List records\n5. Delete record\n6. Update record\n7. Find record\n8. Go Back")
+        option = int(input("Enter your option in number form: "))
 
         if not check_int(option):
             print("Invalid option.")
             continue
         option = int(option)
         
+        if option == 0:
+            file_name = input("Enter the name of the PIM file: ")
+            pim = PIM(file_name)
+            if not pim.status:  # If the file already exists
+                continue
+            
         if option == 1:
             description = input("Enter the task description: ")
             deadline = input("Enter the task deadline (format YYYY-MM-DD): ")
@@ -251,7 +258,7 @@ def Manage_PIR():
 def print_all_files():
     print("------------ALL FILES------------")
     txt_files = [file_name for file_name in os.listdir(current_path) if file_name.endswith('.pim')]
-    
+
     if not txt_files:  # Check if the list is empty
         print("No text files found. Returning to main menu.")
         return False  # Return False if no files found
@@ -261,7 +268,7 @@ def print_all_files():
         with open(file_path, 'r') as file:
             file_content = file.read()
         print(file_name)
-    print("---------------------------------")
+
     return True  # Return True if files are found
 
 # check whether input file exists----------------------------------------------------------------------------------------------------------------------
