@@ -153,6 +153,7 @@ def Manage_PIR():
                     print("Invalid Input, please try again!")
                     deadline = input("Enter the deadline (format YYYY-MM-DD): ")
             pim.add_task(description, deadline)
+            print("Task added Successfully")
 
         elif option == 2:
             description = input("Enter the event description: ")
@@ -166,6 +167,7 @@ def Manage_PIR():
                     print("Invalid Input, please try again!")
                     alarm = input("Enter the event alarm (format YYYY-MM-DD HH:MM): ")
             pim.add_event(description, starting_time, alarm)
+            print("Event added Successfully")
 
         elif option == 3:
             name = input("Enter the contact name: ")
@@ -175,6 +177,7 @@ def Manage_PIR():
                 print("Invalid Input, Please try again")
                 mobile_number = input("Enter the contact mobile number: ")
             pim.add_contact(name, address, mobile_number)
+            print("Contact added Successfully")
             
         elif option == 4:
             print("1. List all records\n2. List specific record type\n3. List specific record type with name")
@@ -203,6 +206,7 @@ def Manage_PIR():
                 continue
             record_index = int(record_index)
             pim.delete_record(record_type, record_index)
+            print("Content deleted Successfully")
 
         elif option == 6:
             record_type = input("Enter record type (tasks/events/contacts): ").lower()
@@ -236,6 +240,7 @@ def Manage_PIR():
                     print("Invalid Input, Please try again")
                     mobile_number = input("Enter the contact mobile number: ")
                 pim.update_record(record_type, record_index, description=None, starting_time=None, alarm=None, name=name, address=address, mobile_number=mobile_number)
+                print("Content updated Successfully")
 
         elif option == 7:
             record_type = input("Enter record type (tasks/events/contacts): ")
