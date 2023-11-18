@@ -138,19 +138,13 @@ def check_int(number):
 def Manage_PIR():
     while True:
         print("--------------------Menu----------------------")
-        print("0. Create new PIM file\n1. Add task\n2. Add event\n3. Add contact\n4. List records\n5. Delete record\n6. Update record\n7. Find record\n8. Go Back")
+        print("1. Add task\n2. Add event\n3. Add contact\n4. List records\n5. Delete record\n6. Update record\n7. Find record\n8. Go Back")
         option = int(input("Enter your option in number form: "))
 
         if not check_int(option):
             print("Invalid option.")
             continue
         option = int(option)
-        
-        if option == 0:
-            file_name = input("Enter the name of the PIM file: ")
-            pim = PIM(file_name)
-            if not pim.status:  # If the file already exists
-                continue
             
         if option == 1:
             description = input("Enter the task description: ")
