@@ -12,6 +12,13 @@ def validate_date(time_string):
     except ValueError:
         return False
 
+def validate_alarm(time_string): 
+    try:
+        datetime.strptime(time_string, "%Y-%m-%d %H:%M")
+        return True
+    except ValueError:
+        return False
+
 
 class PIM:
     def __init__(self, file_name):
@@ -149,14 +156,14 @@ def Manage_PIR():
         elif option == 2:
             description = input("Enter the event description: ")
             starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
-            while validate_date(starting_time) != True:
+            while validate_alarm(starting_time) != True:
                     print("Invalid Input, please try again!")
                     starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
                     
-            alarm = input("Enter the event alarm time (format YYYY-MM-DD): ")
-            while validate_date(alarm) != True:
+            alarm = input("Enter the event alarm time (format YYYY-MM-DD HH:MM): ")
+            while validate_alarm(alarm) != True:
                     print("Invalid Input, please try again!")
-                    alarm = input("Enter the event alarm (format YYYY-MM-DD): ")
+                    alarm = input("Enter the event alarm (format YYYY-MM-DD HH:MM): ")
             pim.add_event(description, starting_time, alarm)
 
         elif option == 3:
@@ -216,8 +223,8 @@ def Manage_PIR():
     
             elif record_type == 'events':
                 description = input("Enter the event description: ")
-                starting_time = input("Enter the event starting time (format YYYY-MM-DD): ")
-                alarm = input("Enter the event alarm time (format YYYY-MM-DD): ")
+                starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
+                alarm = input("Enter the event alarm time (format YYYY-MM-DD HH:MM): ")
                 pim.update_record(record_type, record_index, description, starting_time, alarm)
 
             elif record_type == 'contacts':
@@ -243,7 +250,7 @@ def Manage_PIR():
 # Print out all the files----------------------------------------------------------------------------------------------------------------------
 def print_all_files():
     print("------------ALL FILES------------")
-    txt_files = [file_name for file_name in os.listdir(current_path) if file_name.endswith('.txt')]
+    txt_files = [file_name for file_name in os.listdir(current_path) if file_name.endswith('.pim')]
 
     if not txt_files:  # Check if the list is empty
         print("No text files found. Returning to main menu.")
@@ -275,13 +282,13 @@ while True:
     print("3. Terminate the System")
     selection = input("Please choose one of the options above: ")
     if selection == '1':
-        file = input("Please Enter a File Name (without '.txt'): ")
-        filename = file + '.txt'
+        file = input("Please Enter a File Name (without '.pim'): ")
+        filename = file + '.pim'
         file_path = current_path + '/' + filename
         while check_whether_file_exist(file_path) == True:
             print("The file already exists, please try again")
-            file = input("Please Select one File Above (without '.txt'): ")
-            filename = file + '.txt'
+            file = input("Please Select one File Above (without '.pim'): ")
+            filename = file + '.pim'
             file_path = current_path + '/' + filename
             
         pim = PIM(filename)
@@ -290,13 +297,13 @@ while True:
 
     if selection == '2':
         while print_all_files():
-            file = input("Please Select one File Above (without '.txt'): ")
-            filename = file + '.txt'
+            file = input("Please Select one File Above (without '.pim'): ")
+            filename = file + '.pim'
             file_path = current_path + '/' + filename
             while check_whether_file_exist(file_path) != True:
                 print("The file does not exist, please try again")
-                file = input("Please Select one File Above (without '.txt'): ")
-                filename = file + '.txt'
+                file = input("Please Select one File Above (without '.pim'): ")
+                filename = file + '.pim'
                 file_path = current_path + '/' + filename
                 
             pim = PIM(filename)
