@@ -46,7 +46,7 @@ class PIM:
             if record_type and name:  # If both record_type and name are provided
                 for record in self.data[record_type]:
                     if record_type == 'tasks' and record['description'] == name:
-                        print(record)
+                        print( record)
                     elif record_type == 'events' and record['description'] == name:
                         print(record)
                     elif record_type == 'contacts' and record['name'] == name:
@@ -188,6 +188,7 @@ def Manage_PIR():
             if record_type not in ['tasks', 'events', 'contacts']:
                 print("Invalid record type.")
                 continue
+            pim.list_records(record_type)
             record_index = input("Enter record index ( starting from 0 ): ")
             if not check_int(record_index):
                 print("Invalid record index.")
@@ -200,7 +201,9 @@ def Manage_PIR():
             if record_type not in ['tasks', 'events', 'contacts']:
                 print("Invalid record type.")
                 continue
+            pim.list_records(record_type)
             record_index = input("Enter record index: ")
+            
             if not check_int(record_index):
                 print("Invalid record index.")
                 continue
@@ -304,6 +307,3 @@ while True:
 
     else:
         print("Invalid input, Please try again")
-
-
-
