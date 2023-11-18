@@ -43,50 +43,69 @@ class PIM:
         self.save_data()
 
     def list_records(self, record_type=None, name=None):
-        if record_type and name:  # If both record_type and name are provided
-            for record in self.data[record_type]:
-                if record_type == 'tasks' and record['description'] == name:
-                    print(record)
-                elif record_type == 'events' and record['description'] == name:
-                    print(record)
-                elif record_type == 'contacts' and record['name'] == name:
-                    print(record)
-        elif record_type:  # If only record_type is provided
-            print(f"{record_type.capitalize()}:")
-            for record in self.data[record_type]:
-                print(record)
-        else:  # If no parameters are provided
-            print("Tasks:")
-            for task in self.data['tasks']:
-                print(task)
-            print("Events:")
-            for event in self.data['events']:
-                print(event)
-            print("Contacts:")
-            for contact in self.data['contacts']:
-                print(contact)
-
+            if record_type and name:  # If both record_type and name are provided
+                for record in self.data[record_type]:
+                    if record_type == 'tasks' and record['description'] == name:
+                        print(record)
+                    elif record_type == 'events' and record['description'] == name:
+                        print(record)
+                    elif record_type == 'contacts' and record['name'] == name:
+                        print(record)
+            elif record_type:  # If only record_type is provided
+                if self.data[record_type]:  # If list is not empty
+                    print(f"{record_type.capitalize()}:")
+                    for record in self.data[record_type]:
+                        print(record)
+                else:
+                    print("No record found.")
+            else:  # If no parameters are provided
+                if self.data['tasks'] or self.data['events'] or self.data['contacts']:  # If any list is not empty
+                    print("Tasks:")
+                    for task in self.data['tasks']:
+                        print(task)
+                    print("Events:")
+                    for event in self.data['events']:
+                        print(event)
+                    print("Contacts:")
+                    for contact in self.data['contacts']:
+                        print(contact)
+                else:
+                    print("No record found.")
 
     def delete_record(self, record_type, record_index):
-        if record_index < len(self.data[record_type]):
-            del self.data[record_type][record_index]
-            self.save_data()
-        else:
+        # Check if the record_type is valid
+        if record_type not in ['tasks', 'events', 'contacts']:
+            print("Invalid record type.")
+            return
+        # Check if the record_index is valid
+        if not isinstance(record_index, int) or record_index < 0 or record_index >= len(self.data[record_type]):
             print("Invalid record index.")
+            return
+        del self.data[record_type][record_index]
+        self.save_data()
 
     def update_record(self, record_type, record_index, description=None, deadline=None, starting_time=None, alarm=None, name=None, address=None, mobile_number=None):
-        if record_index < len(self.data[record_type]):
-            if record_type == 'tasks':
-                self.data[record_type][record_index] = {'description': description, 'deadline': deadline}
-            elif record_type == 'events':
-                self.data[record_type][record_index] = {'description': description, 'starting_time': starting_time, 'alarm': alarm}
-            elif record_type == 'contacts':
-                self.data[record_type][record_index] = {'name': name, 'address': address, 'mobile_number': mobile_number}
-            self.save_data()
-        else:
+        # Check if the record_type is valid
+        if record_type not in ['tasks', 'events', 'contacts']:
+            print("Invalid record type.")
+            return
+        # Check if the record_index is valid
+        if not isinstance(record_index, int) or record_index < 0 or record_index >= len(self.data[record_type]):
             print("Invalid record index.")
+            return
+        if record_type == 'tasks':
+            self.data[record_type][record_index] = {'description': description, 'deadline': deadline}
+        elif record_type == 'events':
+            self.data[record_type][record_index] = {'description': description, 'starting_time': starting_time, 'alarm': alarm}
+        elif record_type == 'contacts':
+            self.data[record_type][record_index] = {'name': name, 'address': address, 'mobile_number': mobile_number}
+        self.save_data()
 
     def find_by_name(self, record_type, name):
+        # Check if the record_type is valid
+        if record_type not in ['tasks', 'events', 'contacts']:
+            print("Invalid record type.")
+            return
         for record in self.data[record_type]:
             if record_type == 'tasks' and record['description'] == name:
                 return record
@@ -94,6 +113,7 @@ class PIM:
                 return record
             elif record_type == 'contacts' and record['name'] == name:
                 return record
+        print("No record found with the provided name.")
         return None
 
 
@@ -112,7 +132,12 @@ def Manage_PIR():
         print("--------------------Menu----------------------")
         print("1. Add task\n2. Add event\n3. Add contact\n4. List records\n5. Delete record\n6. Update record\n7. Find record\n8. Go Back")
         option = int(input("Enter your option: "))
-    
+
+        if not check_int(option):
+            print("Invalid option.")
+            continue
+        option = int(option)
+        
         if option == 1:
             description = input("Enter the task description: ")
             deadline = input("Enter the task deadline (format YYYY-MM-DD): ")
@@ -159,13 +184,27 @@ def Manage_PIR():
                 print("Invalid option.")
                 
         elif option == 5:
-            record_type = input("Enter record type (tasks/events/contacts): ")
-            record_index = int(input("Enter record index ( starting from 0 ): "))
+            record_type = input("Enter record type (tasks/events/contacts): ").lower()
+            if record_type not in ['tasks', 'events', 'contacts']:
+                print("Invalid record type.")
+                continue
+            record_index = input("Enter record index ( starting from 0 ): ")
+            if not check_int(record_index):
+                print("Invalid record index.")
+                continue
+            record_index = int(record_index)
             pim.delete_record(record_type, record_index)
 
         elif option == 6:
-            record_type = input("Enter record type (tasks/events/contacts): ")
-            record_index = int(input("Enter record index: "))
+            record_type = input("Enter record type (tasks/events/contacts): ").lower()
+            if record_type not in ['tasks', 'events', 'contacts']:
+                print("Invalid record type.")
+                continue
+            record_index = input("Enter record index: ")
+            if not check_int(record_index):
+                print("Invalid record index.")
+                continue
+            record_index = int(record_index)
 
             if record_type == 'tasks':
                 description = input("Enter the task description: ")
