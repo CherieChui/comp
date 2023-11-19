@@ -139,14 +139,9 @@ def Manage_PIR():
     while True:
         print("--------------------Menu----------------------")
         print("1. Add task\n2. Add event\n3. Add contact\n4. List records\n5. Delete record\n6. Update record\n7. Find record\n8. Go Back")
-        option = int(input("Enter your option in number form: "))
-
-        if not check_int(option):
-            print("Invalid option.")
-            continue
-        option = int(option)
+        option = input("Enter your option in number form: ")
             
-        if option == 1:
+        if option == '1':
             description = input("Enter the task description: ")
             deadline = input("Enter the task deadline (format YYYY-MM-DD): ")
             while validate_date(deadline) != True:
@@ -155,7 +150,7 @@ def Manage_PIR():
             pim.add_task(description, deadline)
             print("Task added Successfully")
 
-        elif option == 2:
+        elif option == '2':
             description = input("Enter the event description: ")
             starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
             while validate_alarm(starting_time) != True:
@@ -169,7 +164,7 @@ def Manage_PIR():
             pim.add_event(description, starting_time, alarm)
             print("Event added Successfully")
 
-        elif option == 3:
+        elif option == '3':
             name = input("Enter the contact name: ")
             address = input("Enter the contact address: ")
             mobile_number = input("Enter the contact mobile number: ")
@@ -179,7 +174,7 @@ def Manage_PIR():
             pim.add_contact(name, address, mobile_number)
             print("Contact added Successfully")
             
-        elif option == 4:
+        elif option == '4':
             print("1. List all records\n2. List specific record type\n3. List specific record type with name")
             option = int(input("Enter your option: "))
             if option == 1:
@@ -194,7 +189,7 @@ def Manage_PIR():
             else:
                 print("Invalid option.")
                 
-        elif option == 5:
+        elif option == '5':
             record_type = input("Enter record type (tasks/events/contacts): ").lower()
             if record_type not in ['tasks', 'events', 'contacts']:
                 print("Invalid record type.")
@@ -208,7 +203,7 @@ def Manage_PIR():
             pim.delete_record(record_type, record_index)
             print("Content deleted Successfully")
 
-        elif option == 6:
+        elif option == '6':
             record_type = input("Enter record type (tasks/events/contacts): ").lower()
             if record_type not in ['tasks', 'events', 'contacts']:
                 print("Invalid record type.")
@@ -242,15 +237,15 @@ def Manage_PIR():
                 pim.update_record(record_type, record_index, description=None, starting_time=None, alarm=None, name=name, address=address, mobile_number=mobile_number)
                 print("Content updated Successfully")
 
-        elif option == 7:
+        elif option == '7':
             record_type = input("Enter record type (tasks/events/contacts): ")
             name = input("Enter the name: ")
             print(pim.find_by_name(record_type, name))
 
-        elif option == 8:
+        elif option == '8':
             return "back"
         else:
-            print("Invalid option.")
+            print("Invalid input, Please try again")
 
 
 # Print out all the files----------------------------------------------------------------------------------------------------------------------
