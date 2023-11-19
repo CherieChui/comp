@@ -81,7 +81,8 @@ class PIM:
                         print(contact)
                 else:
                     print("No record found.")
-
+        
+    
     def delete_record(self, record_type, record_index):
         # Check if the record_type is valid
         if record_type not in ['tasks', 'events', 'contacts']:
@@ -135,6 +136,63 @@ def check_int(number):
     except ValueError:
         return False
 
+# Print out all the files----------------------------------------------------------------------------------------------------------------------
+def print_all_files():
+    print("------------ALL FILES------------")
+    txt_files = [file_name for file_name in os.listdir(current_path) if file_name.endswith('.pim')]
+
+    if not txt_files:  # Check if the list is empty
+        print("No text files found. Returning to main menu.")
+        return False  # Return False if no files found
+
+    for file_name in txt_files:
+        file_path = current_path + '/' + file_name
+        with open(file_path, 'r') as file:
+            file_content = file.read()
+        print(file_name)
+
+    return True  # Return True if files are found
+
+def delete_function():
+    while True:
+        print("1. Delete one specific PIR")
+        print("2. Delete a file")
+        print("3. Go Back")
+        selection = input("Please selection one option: ")
+                
+        if selection == '1':
+            record_type = input("Enter record type (tasks/events/contacts): ").lower()
+            if record_type not in ['tasks', 'events', 'contacts']:
+                print("Invalid record type.")
+                continue
+            pim.list_records(record_type)
+            record_index = input("Enter record index ( starting from 0 ): ")
+            if not check_int(record_index):
+                print("Invalid record index.")
+                continue
+            record_index = int(record_index)
+            pim.delete_record(record_type, record_index)
+            print("Content deleted Successfully")
+            print("-----------------------------------------")
+
+        if selection == '2':
+            print_all_files()
+            file_name = input("Please choose the file you want to delete(without '.pim'): ")
+            file_path = os.getcwd() + '/' + file_name + '.pim'
+            if os.path.exists(file_path):
+                # Delete the file
+                os.remove(file_path)
+                print("File deleted successfully.")
+                print("-----------------------------------------")
+            else:
+                print("File does not exist.")
+                print("-----------------------------------------")
+
+        if selection == '3':
+            return
+
+
+
 
 # Manage function to PIR----------------------------------------------------------------------------------------------------------------------
 def Manage_PIR():
@@ -151,20 +209,22 @@ def Manage_PIR():
                     deadline = input("Enter the deadline (format YYYY-MM-DD): ")
             pim.add_task(description, deadline)
             print("Task added Successfully")
+            print("-----------------------------------------")
 
         elif option == '2':
             description = input("Enter the event description: ")
             starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
             while validate_alarm(starting_time) != True:
-                    print("Invalid Input, please try again!")
-                    starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
+                print("Invalid Input, please try again!")
+                starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
                     
             alarm = input("Enter the event alarm time (format YYYY-MM-DD HH:MM): ")
             while validate_alarm(alarm) != True:
-                    print("Invalid Input, please try again!")
-                    alarm = input("Enter the event alarm (format YYYY-MM-DD HH:MM): ")
+                print("Invalid Input, please try again!")
+                alarm = input("Enter the event alarm (format YYYY-MM-DD HH:MM): ")
             pim.add_event(description, starting_time, alarm)
             print("Event added Successfully")
+            print("-----------------------------------------")
 
         elif option == '3':
             name = input("Enter the contact name: ")
@@ -175,6 +235,7 @@ def Manage_PIR():
                 mobile_number = input("Enter the contact mobile number: ")
             pim.add_contact(name, address, mobile_number)
             print("Contact added Successfully")
+            print("-----------------------------------------")
             
         elif option == '4':
             print("1. List all records\n2. List specific record type\n3. List specific record type with name")
@@ -192,18 +253,7 @@ def Manage_PIR():
                 print("Invalid option.")
                 
         elif option == '5':
-            record_type = input("Enter record type (tasks/events/contacts): ").lower()
-            if record_type not in ['tasks', 'events', 'contacts']:
-                print("Invalid record type.")
-                continue
-            pim.list_records(record_type)
-            record_index = input("Enter record index ( starting from 0 ): ")
-            if not check_int(record_index):
-                print("Invalid record index.")
-                continue
-            record_index = int(record_index)
-            pim.delete_record(record_type, record_index)
-            print("Content deleted Successfully")
+            delete_function()
 
         elif option == '6':
             record_type = input("Enter record type (tasks/events/contacts): ").lower()
@@ -238,6 +288,7 @@ def Manage_PIR():
                     mobile_number = input("Enter the contact mobile number: ")
                 pim.update_record(record_type, record_index, description=None, starting_time=None, alarm=None, name=name, address=address, mobile_number=mobile_number)
                 print("Content updated Successfully")
+                print("-----------------------------------------")
 
         elif option == '7':
             record_type = input("Enter record type (tasks/events/contacts): ")
@@ -246,26 +297,11 @@ def Manage_PIR():
 
         elif option == '8':
             return "back"
+        
         else:
             print("Invalid input, Please try again")
 
 
-# Print out all the files----------------------------------------------------------------------------------------------------------------------
-def print_all_files():
-    print("------------ALL FILES------------")
-    txt_files = [file_name for file_name in os.listdir(current_path) if file_name.endswith('.pim')]
-
-    if not txt_files:  # Check if the list is empty
-        print("No text files found. Returning to main menu.")
-        return False  # Return False if no files found
-
-    for file_name in txt_files:
-        file_path = current_path + '/' + file_name
-        with open(file_path, 'r') as file:
-            file_content = file.read()
-        print(file_name)
-
-    return True  # Return True if files are found
 
 # check whether input file exists----------------------------------------------------------------------------------------------------------------------
 def check_whether_file_exist(file_path):
