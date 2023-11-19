@@ -272,12 +272,16 @@ def Manage_PIR():
                 description = input("Enter the task description: ")
                 deadline = input("Enter the task deadline (format YYYY-MM-DD): ")
                 pim.update_record(record_type, record_index, description, deadline)
+                print("Content updated Successfully")
+                print("-----------------------------------------")
     
             elif record_type == 'events':
                 description = input("Enter the event description: ")
                 starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
                 alarm = input("Enter the event alarm time (format YYYY-MM-DD HH:MM): ")
                 pim.update_record(record_type, record_index, description, starting_time, alarm)
+                print("Content updated Successfully")
+                print("-----------------------------------------")
 
             elif record_type == 'contacts':
                 name = input("Enter the contact name: ")
