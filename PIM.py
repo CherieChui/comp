@@ -23,11 +23,13 @@ def validate_alarm(time_string):
 class PIM:
     def __init__(self, file_name):
         self.file_name = file_name
+        self.data = {'tasks': [], 'events': [], 'contacts': []} # Move this line here
         if os.path.exists(file_name):
             print(f"The file {file_name} already exists.")
             self.status = False
+            with open(file_name, 'r') as f:  # Load the file
+                self.data = json.load(f)  # Update self.data with the content of the file
         else:
-            self.data = {'tasks': [], 'events': [], 'contacts': []}
             with open(file_name, 'w') as f:  # Create the file
                 json.dump(self.data, f)
             self.status = True
