@@ -268,12 +268,21 @@ def Manage_PIR():
             if record_type == 'tasks':
                 description = input("Enter the task description: ")
                 deadline = input("Enter the task deadline (format YYYY-MM-DD): ")
+                while validate_date(deadline) != True:
+                    print("Invalid Input, please try again!")
+                    deadline = input("Enter the deadline (format YYYY-MM-DD): ")
                 pim.update_record(record_type, record_index, description, deadline)
     
             elif record_type == 'events':
                 description = input("Enter the event description: ")
                 starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
+                while validate_alarm(starting_time) != True:
+                    print("Invalid Input, please try again!")
+                    starting_time = input("Enter the event starting time (format YYYY-MM-DD HH:MM): ")
                 alarm = input("Enter the event alarm time (format YYYY-MM-DD HH:MM): ")
+                while validate_alarm(alarm) != True or datetime.strptime(alarm, "%Y-%m-%d %H:%M") >= datetime.strptime(starting_time, "%Y-%m-%d %H:%M"):
+                    print("Invalid Input or alarm time is not before the event starting time, please try again!")
+                    alarm = input("Enter the event alarm (format YYYY-MM-DD HH:MM): ")
                 pim.update_record(record_type, record_index, description, starting_time, alarm)
 
             elif record_type == 'contacts':
