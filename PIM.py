@@ -144,6 +144,44 @@ def check_int(number):
     except ValueError:
         return False
 
+def delete_function():
+    while True:
+        print("1. Delete one specific PIR")
+        print("2. Delete a file")
+        print("3. Go Back")
+        selection = input("Please selection one option: ")
+                
+        if selection == '1':
+            record_type = input("Enter record type (tasks/events/contacts): ").lower()
+            if record_type not in ['tasks', 'events', 'contacts']:
+                print("Invalid record type.")
+                continue
+            pim.list_records(record_type)
+            record_index = input("Enter record index ( starting from 0 ): ")
+            if not check_int(record_index):
+                print("Invalid record index.")
+                continue
+            record_index = int(record_index)
+            pim.delete_record(record_type, record_index)
+            print("Content deleted Successfully")
+            print("-----------------------------------------")
+
+        if selection == '2':
+            print_all_files()
+            file_name = input("Please choose the file you want to delete(without '.pim'): ")
+            file_path = os.getcwd() + '/' + file_name + '.pim'
+            if os.path.exists(file_path):
+                # Delete the file
+                os.remove(file_path)
+                print("File deleted successfully.")
+                print("-----------------------------------------")
+            else:
+                print("File does not exist.")
+                print("-----------------------------------------")
+
+        if selection == '3':
+            return
+
 
 # Manage function to PIR----------------------------------------------------------------------------------------------------------------------
 def Manage_PIR():
@@ -212,18 +250,7 @@ def Manage_PIR():
                 continue
 
         elif option == '5':
-            record_type = input("Enter record type (tasks/events/contacts): ").lower()
-            if record_type not in ['tasks', 'events', 'contacts']:
-                print("Invalid record type.")
-                continue
-            pim.list_records(record_type)
-            record_index = input("Enter record index ( starting from 0 ): ")
-            if not check_int(record_index):
-                print("Invalid record index.")
-                continue
-            record_index = int(record_index)
-            pim.delete_record(record_type, record_index)
-            print("Content deleted Successfully")
+            delete_function()
 
         elif option == '6':
             record_type = input("Enter record type (tasks/events/contacts): ").lower()
