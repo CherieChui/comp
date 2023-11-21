@@ -1,6 +1,7 @@
 # Filename: view.py
 
 from model import PIM, validate_date, validate_alarm
+from datetime import datetime
 
 # check if the input number is not int
 def check_int(number):
@@ -78,8 +79,8 @@ def Manage_PIR(pim):
                 continue
 
         elif option == '5':
-            delete_function()
-
+            pim.delete_function()
+                
         elif option == '6':
             record_type = input("Enter record type (tasks/events/contacts): ").lower()
             if record_type not in ['tasks', 'events', 'contacts']:
@@ -125,6 +126,9 @@ def Manage_PIR(pim):
 
         elif option == '7':
             record_type = input("Enter record type (tasks/events/contacts): ")
+            if record_type not in ['tasks', 'events', 'contacts']:
+                print("Invalid record type.")
+                continue
             name = input("Enter the name: ")
             print(pim.find_by_name(record_type, name))
 
