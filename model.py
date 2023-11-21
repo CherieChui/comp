@@ -1,6 +1,25 @@
+# Filename: model.py
+
 import os
 import json
 from datetime import datetime
+
+
+# test if the input deadline is valid
+def validate_date(time_string): 
+    try:
+        datetime.strptime(time_string, "%Y-%m-%d")
+        return True
+    except ValueError:
+        return False
+
+def validate_alarm(time_string): 
+    try:
+        datetime.strptime(time_string, "%Y-%m-%d %H:%M")
+        return True
+    except ValueError:
+        return False
+
 
 class PIM:
     def __init__(self, file_name):
@@ -14,7 +33,6 @@ class PIM:
             with open(file_name, 'w') as f:  # Create the file
                 json.dump(self.data, f)
             self.status = True
-            print(f"The file {file_name} has been successfully created and opened.")
             
     def save_data(self):
         with open(self.file_name, 'w') as f:
