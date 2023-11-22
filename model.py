@@ -132,13 +132,8 @@ class PIM:
         except ValueError:
             return False
 
-    def delete_function(self):
-        while True:
-            print("1. Delete one specific PIR")
-            print("2. Delete a file")
-            print("3. Go Back")
-            selection = input("Please selection one option: ")
-                    
+    def delete_function(self,selection):
+        while True: 
             if selection == '1':
                 record_type = input("Enter record type (tasks/events/contacts): ").lower()
                 if record_type not in ['tasks', 'events', 'contacts']:
@@ -153,8 +148,14 @@ class PIM:
                 self.delete_record(record_type, record_index)
                 print("Content deleted Successfully")
                 print("-----------------------------------------")
-
+                return
+            
             elif selection == '2':
+                print("---Files---")
+                # Assuming you want to print all files in the current directory
+                for file_name in os.listdir(os.getcwd()):
+                    if file_name.endswith(".pim"):
+                        print(file_name)
                 file_name = input("Please choose the file you want to delete(without '.pim'): ")
                 file_path = os.getcwd() + '/' + file_name + '.pim'
                 if os.path.exists(file_path):
@@ -162,10 +163,13 @@ class PIM:
                     os.remove(file_path)
                     print("File deleted successfully.")
                     print("-----------------------------------------")
+                    return
+                    
                 else:
                     print("File does not exist.")
                     print("-----------------------------------------")
 
+                return
             elif selection == '3':
                 return
                 
