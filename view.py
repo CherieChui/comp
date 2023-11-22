@@ -3,6 +3,7 @@
 from model import PIM, validate_date, validate_alarm
 from datetime import datetime
 
+
 # check if the input number is not int
 def check_int(number):
     try:
@@ -79,7 +80,16 @@ def Manage_PIR(pim):
                 continue
 
         elif option == '5':
-            pim.delete_function()
+                print("1. Delete one specific PIR")
+                print("2. Delete a file")
+                print("3. Go Back")
+                selection = input("Please selection one option: ")
+                if (selection == '1' or selection == '2' or selection == '3'):
+                    pim.delete_function(selection)
+                    if selection == '2':
+                        return
+                else: print("Invalid Input")
+                
                 
         elif option == '6':
             record_type = input("Enter record type (tasks/events/contacts): ").lower()
