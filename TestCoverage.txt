@@ -1,0 +1,17 @@
+Controller Test: (test controller.py)
+1. def test_check_whether_file_exist(self, mock_isfile) ------------- line 8-9
+2. def test_check_pim_files(self, mock_listdir) ----------- line 11-22
+3. def test_print_all_files(self, mock_listdir) ----------- line 24-31
+
+
+
+Model Test: (test Model.py)
+1. def test_validate_date(self) ---------- line 9-14
+2. def test_validate_alarm(self) ---------- line 16-21
+3. self.assertEqual(pim.data, {'tasks': [], 'events': [], 'contacts': []}) ---------- line 25-35
+4. self.assertEqual(pim.data['tasks'][0], {'description': 'Test task', 'deadline': '2023-11-23'}) ---------- line 41-43
+5. self.assertEqual(pim.data['events'][0], {'description': 'Test event', 'starting_time': '2023-11-23 16:30', 'alarm': '2023-11-23 15:30'}) ----------- line 45-47
+6. self.assertEqual(pim.data['contacts'][0], {'name': 'Test contact', 'address': 'Test address', 'mobile_number': '1234567890'}) ----------- line 49-51
+7. self.assertEqual(pim.data['tasks'], []) ----------- line 83-94
+8. self.assertEqual(pim.data['events'][0]['description'], 'Updated event') ----------- line 96-110
+9. self.assertEqual(result, {'name': 'Test contact', 'address': 'Test address', 'mobile_number': '1234567890'}) ---------- line 113-126
