@@ -19,6 +19,8 @@ def check_pim_files(path):
     if not PIM_files_exist:
         print("----------------------------------------")
         print("No PIM files found in the specified path.")
+        return True
+    else: 
         return False
 
 def print_all_files():
@@ -47,9 +49,9 @@ def main(selection):
             return
 
     elif selection == '2':
-        if check_pim_files(current_path) != False:
+        if check_pim_files(current_path) != True:
             while print_all_files():
-                if check_pim_files(current_path) == False:
+                if check_pim_files(current_path) == True:
                     return
                 file = input("Please Select one File Above (without '.pim'): ")
                 filename = file + '.pim'
